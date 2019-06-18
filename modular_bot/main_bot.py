@@ -42,9 +42,9 @@ class LogHandler(logging.Handler):
 
 @client.event
 async def on_ready():
-    logging.info("Logged in as " + client.user.name + "(ID: " + client.user.id + ")")
+    logging.info("Logged in as {} (ID: {})".format(client.user.name, client.user.id))
     for channel in listening_channels:
-        await client.send_message(client.get_channel(channel), ":thumbsup:")
+        await client.get_channel(int(channel)).send(':thumbsup:')
 
 
 @client.event
@@ -58,7 +58,7 @@ async def on_message(message):
             return_text = command_term[1:]
             if len(return_text) == 0:
                 return_text = "null"
-            await client.send_message(message.channel, "Invalid Command: " + "`" + return_text + "`")
+            await message.channel.send("Invalid Command: " + "`" + return_text + "`")
         else:
             # Create a bundle to pass to module as argument
             bundle = {"client": client, "message": message, "vchannel": voice_channel}
@@ -72,7 +72,7 @@ def check_message_channel(msg):
     :param msg: Message object
     :return: True if message is from listening channel, False if not.
     """
-    if msg.channel.id in listening_channels:
+    if str(msg.channel.id) in listening_channels:
         return True
     else:
         return False

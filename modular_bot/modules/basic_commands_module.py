@@ -1,7 +1,5 @@
-import discord
 import time
 import logging
-import asyncio
 
 
 class BasicCommands:
@@ -50,16 +48,15 @@ class BasicCommands:
         client = bundle.get("client")
         message = bundle.get("message")
         if message.content.startswith(self.command_char + "echo"):
-            await self.echo(client, message)
+            await self.echo(message)
         elif message.content.startswith(self.command_char + "sleep"):
-            await self.sleep(client, message)
+            await self.sleep(message)
         elif message.content.startswith(self.command_char + "shutdown"):
             await self.shutdown(client, message)
 
-    async def echo(self, client, message):
+    async def echo(self, message):
         """
         Echoes given message(excluding command term).
-        :param client: discord.Client instance.
         :param message: discord.Message instance.
         :return: no return value.
         """
@@ -67,19 +64,18 @@ class BasicCommands:
         return_text = message.content[6:]
         if len(return_text) == 0:
             return_text = "`null`"
-        await client.send_message(message.channel, return_text)
+        await message.channel.send(return_text)
 
-    async def sleep(self, client, message):
+    async def sleep(self, message):
         """
         Sleeps for 5 seconds. Any commands initiated during sleep will executed after sleep finishes.
-        :param client: discord.Client instance.
         :param message: discord.Message instance.
         :return: no return value.
         """
         logging.info("Sleep requested by " + message.author.name + " on " + message.channel.name)
-        await client.send_message(message.channel, "Sleeping...")
+        await message.channel.send("Sleeping...")
         time.sleep(5)
-        await client.send_message(message.channel, "Slept 5 seconds!")
+        await message.channel.send("Slept 5 seconds!")
 
     async def shutdown(self, client, message):
         """
@@ -89,6 +85,6 @@ class BasicCommands:
         :return: no return value.
         """
         logging.info("Shutdown requested by " + message.author.name + " on " + message.channel.name)
-        await client.send_message(message.channel, ":wave:")
+        await message.channel.send(":wave:")
         await client.logout()
         logging.info("Logged out and closed connection.")
