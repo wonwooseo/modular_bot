@@ -3,9 +3,10 @@ import time
 import logging
 import asyncio
 import _thread
+from modular_bot.Module import BaseModule
 
 
-class EventReminderModule:
+class EventReminderModule(BaseModule):
     """
     Class for event reminder module. User can add event, see added events and remove added event by commands.
     Bot sends a reminder message that mentions everyone on server on time specified by user when adding event.
@@ -13,39 +14,9 @@ class EventReminderModule:
     module_name = "Event Reminder Module"
     module_description = "Reminds everyone on server on time specified. Users can see and add/edit/remove events."
     commands = ["addevent", "listevent", "editevent", "removeevent"]
-    command_char = ''
+    # Module specific variables
     reminder_thread = False
     events_list = []  # use list to hold events; list will be sorted every time item is added
-
-    def __init__(self, user_cmd_char):
-        """
-        Sets command prefix while initializing.
-        :param user_cmd_char: command prefix.
-        """
-        self.command_char = user_cmd_char
-        self.client = None
-        self.channel = None
-
-    def get_module_name(self):
-        """
-        Returns name of the module.
-        :return: name of the module in string.
-        """
-        return self.module_name
-
-    def get_module_description(self):
-        """
-        Returns description of the module.
-        :return: description of the module in string.
-        """
-        return self.module_description
-
-    def get_all_commands(self):
-        """
-        Returns all commands of the module.
-        :return: commands of the module in string list.
-        """
-        return self.commands
 
     async def parse_command(self, bundle):
         """

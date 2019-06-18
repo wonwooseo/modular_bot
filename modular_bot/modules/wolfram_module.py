@@ -2,9 +2,10 @@ import logging
 import requests
 import discord
 import io
+from modular_bot.Module import BaseModule
 
 
-class WolframModule:
+class WolframModule(BaseModule):
     """
     Class for Wolfram Module. Queries WolframAlpha and returns simple text answer or detailed image answer.
     """
@@ -12,36 +13,8 @@ class WolframModule:
     module_description = "Queries user's question to WolframAlpha. User can select to receive answer in simple" \
                          " text-only form or detailed image-based form."
     commands = ["wolfram", "wolfram_detail"]
-    command_char = ''
+    # Module specific variables
     app_id = "75GQ8R-VJ8AX4VT75"
-
-    def __init__(self, user_cmd_char):
-        """
-        Sets command prefix while initializing.
-        :param user_cmd_char: command prefix.
-        """
-        self.command_char = user_cmd_char
-
-    def get_module_name(self):
-        """
-        Returns name of the module.
-        :return: name of the module in string.
-        """
-        return self.module_name
-
-    def get_module_description(self):
-        """
-        Returns description of the module.
-        :return: description of the module in string.
-        """
-        return self.module_description
-
-    def get_all_commands(self):
-        """
-        Returns all commands of the module.
-        :return: commands of the module in string list.
-        """
-        return self.commands
 
     async def parse_command(self, bundle):
         """

@@ -1,43 +1,15 @@
 import time
 import logging
+from modular_bot.Module import BaseModule
 
 
-class BasicCommands:
+class BasicCommands(BaseModule):
     """
     Class for basic commands module.
     """
     module_name = "Basic Commands"
     module_description = "Basic commands for testing purpose and shutdown."
     commands = ["echo", "sleep", "shutdown"]
-    command_char = ''
-
-    def __init__(self, user_cmd_char):
-        """
-        Sets command prefix while initializing.
-        :param user_cmd_char: command prefix.
-        """
-        self.command_char = user_cmd_char
-
-    def get_module_name(self):
-        """
-        Returns name of the module.
-        :return: name of the module in string.
-        """
-        return self.module_name
-
-    def get_module_description(self):
-        """
-        Returns description of the module.
-        :return: description of the module in string.
-        """
-        return self.module_description
-
-    def get_all_commands(self):
-        """
-        Returns all commands of the module.
-        :return: commands of the module in string list.
-        """
-        return self.commands
 
     async def parse_command(self, bundle):
         """

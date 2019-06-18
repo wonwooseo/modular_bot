@@ -2,9 +2,10 @@ import logging
 import discord
 import requests
 from bs4 import BeautifulSoup
+from modular_bot.Module import BaseModule
 
 
-class PSNModule:
+class PSNModule(BaseModule):
     """
     Class for PSN Module. Gets user profile, recently played games,
     recently earned trophies from psnprofiles.com.
@@ -13,35 +14,6 @@ class PSNModule:
     module_description = "Fetches Playstation Network user profile, recently played games or recently earned " \
                          "trophies. All data referenced from psnprofiles.com."
     commands = ["psn_user", "psn_recent", "psn_trophies"]
-    command_char = ''
-
-    def __init__(self, user_cmd_char):
-        """
-        Sets command prefix while initializing.
-        :param user_cmd_char: command prefix.
-        """
-        self.command_char = user_cmd_char
-
-    def get_module_name(self):
-        """
-        Returns name of the module.
-        :return: name of the module in string.
-        """
-        return self.module_name
-
-    def get_module_description(self):
-        """
-        Returns description of the module.
-        :return: description of the module in string.
-        """
-        return self.module_description
-
-    def get_all_commands(self):
-        """
-        Returns all commands of the module.
-        :return: commands of the module in string list.
-        """
-        return self.commands
 
     async def parse_command(self, bundle):
         """
@@ -157,7 +129,7 @@ class PSNModule:
             for trophy_soup in recent_trophies:
                 game_title = trophy_soup.find('img', {'class': 'game'})['title']
                 trophy_name = trophy_soup.find('a', {'class': 'title'}).text
-                trophy_desc = trophy_soup.find('a', {'class': 'title'}).parent.text.strip()
+                trophy_desc = trophy_soup.find('a', {'class': 'title'}).parent.br.next.strip()
                 trophy_img_src = trophy_soup.find("img", {'class': 'trophy'})["src"]
                 # list of spans (might be used for other info in future)
                 spans = trophy_soup.findAll('span', {'class': 'separator left'})
