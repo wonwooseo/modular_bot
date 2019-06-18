@@ -1,4 +1,4 @@
-# modular_bot
+# modular_discord_bot
 Discord bot based on idea of modularization. Uses discord.py API.
 Currently targeted to run on Windows only.
 

@@ -3,9 +3,10 @@ import logging
 import asyncio
 import queue
 import os
+from modular_bot.Module import BaseModule
 
 
-class MusicModule:
+class MusicModule(BaseModule):
     """
     Class for music module. Music module supports streaming audio from youtube url or local files. User can switch
     between each player instance anytime, but all queue or playlist index data will be lost during switching.
@@ -15,7 +16,7 @@ class MusicModule:
                          " Youtube player, but local file player has a fixed playlist(order by filename). Users can" \
                          " skip, pause or change volume while playing."
     commands = ["play", "play_local", "stop", "pause", "resume", "skip", "volume", "music", "musicoff"]
-    command_char = ''
+    # Module specific variables
     function_dict = {}
     voice_channel = ""
     voice_client = None
@@ -27,14 +28,6 @@ class MusicModule:
     is_playing = False
     is_local = False
     default_volume = 0.15
-
-    def __init__(self, user_cmd_char):
-        """
-        Sets command prefix while initializing.
-        :param user_cmd_char: command prefix.
-        """
-        self.command_char = user_cmd_char
-        self.initialize_function_dict()
 
     def initialize_function_dict(self):
         """
@@ -62,27 +55,6 @@ class MusicModule:
         self.player_switch = False
         self.is_playing = False
         self.is_local = False
-
-    def get_module_name(self):
-        """
-        Returns name of the module.
-        :return: name of the module in string.
-        """
-        return self.module_name
-
-    def get_module_description(self):
-        """
-        Returns description of the module.
-        :return: description of the module in string.
-        """
-        return self.module_description
-
-    def get_all_commands(self):
-        """
-        Returns all commands of the module.
-        :return: commands of the module in string list.
-        """
-        return self.commands
 
     def end_song(self, client, message):
         """
